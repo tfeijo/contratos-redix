@@ -12,12 +12,13 @@ export default defineConfig([
     },
     extends: ['js/recommended'],
     languageOptions: {
-      ecmaVersion: 2021,
-      sourceType: 'commonjs',
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
         ...globals.node,
       },
     },
+    
     rules: {
       ...js.configs.recommended.rules,
       'prettier/prettier': 'error',

@@ -1,7 +1,7 @@
-import express from 'express'
-import routes from './routes/index.js'
-import logger from './middlewares/logger.js'
-import autenticarToken from './middlewares/authenticate.js'
+import express from 'express';
+import routes from './routes/index.js';
+import logger from './middlewares/logger.js';
+import autenticarToken from './middlewares/authenticate.js';
 
 const app = express();
 

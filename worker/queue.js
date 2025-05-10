@@ -1,5 +1,5 @@
-import { Queue } from 'bullmq'
-import connection from './utils/connectionRedis.js'
+import { Queue } from 'bullmq';
+import connection from './utils/connectionRedis.js';
 
 const fileQueue = new Queue('file-processing', { connection });
 

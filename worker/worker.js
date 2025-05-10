@@ -18,7 +18,7 @@ const worker = new Worker(
       throw err;
     }
   },
-  { connection }
+  { connection },
 );
 
 worker.on('completed', (job) => {
