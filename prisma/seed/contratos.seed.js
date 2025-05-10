@@ -1,8 +1,10 @@
+const { UploadStatus } = require('@prisma/client');
+
 module.exports = async function (prisma) {
   const upload = await prisma.uploadedFile.create({
     data: {
       filename: 'seed.xlsx',
-      status: 'SUCCESS',
+      status: UploadStatus.SUCCESS,
     },
   });
 
