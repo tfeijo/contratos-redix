@@ -6,14 +6,16 @@ WORKDIR /app
 
 # Copia os arquivos necessários
 COPY package*.json ./
-COPY prisma ./prisma
 RUN npm install
 
 # Copia o restante da aplicação
 COPY . .
 
+# Gera o Prisma Client com base no schema.prisma e no banco
+RUN npx prisma generate
+
 # Porta da aplicação
 EXPOSE 3001
 
 # Comando para rodar o app
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]
