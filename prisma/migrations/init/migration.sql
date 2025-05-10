@@ -1,8 +1,5 @@
--- CreateExtension
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 -- CreateEnum
-CREATE TYPE "UploadStatus" AS ENUM ('PENDING', 'SUCCESS', 'FAILED');
+CREATE TYPE "UploadStatus" AS ENUM ('PENDING', 'SUCCESS', 'FAILED', 'PARTIAL_SUCCESS');
 
 -- CreateTable
 CREATE TABLE "uploaded_files" (
@@ -31,3 +28,4 @@ CREATE UNIQUE INDEX "contratos_cnpj_key" ON "contratos"("cnpj");
 
 -- AddForeignKey
 ALTER TABLE "contratos" ADD CONSTRAINT "contratos_arquivoId_fkey" FOREIGN KEY ("arquivoId") REFERENCES "uploaded_files"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+

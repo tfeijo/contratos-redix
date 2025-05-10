@@ -1,7 +1,7 @@
-const express = require('express');
-const routes = require('./routes');
-const logger = require('./middlewares/logger');
-const autenticarToken = require('./middlewares/authenticate');
+import express from 'express'
+import routes from './routes/index.js'
+import logger from './middlewares/logger.js'
+import autenticarToken from './middlewares/authenticate.js'
 
 const app = express();
 
@@ -10,4 +10,4 @@ app.use(logger);
 app.use(autenticarToken);
 app.use(routes);
 
-module.exports = app;
+export default app;
