@@ -3,7 +3,6 @@ import jwt  from 'jsonwebtoken'
 const JWT_SECRET = process.env.JWT_SECRET || 'jwt';
 
 function autenticarToken(req, res, next) {
-  console.log(process.env.JWT_SECRET);
   const authHeader = req.headers['authorization'];
   const token = authHeader?.split(' ')[1];
 
