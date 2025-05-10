@@ -1,8 +1,8 @@
-const express = require('express');
-const contratoRoutes = require('./contratos.routes');
+import express from 'express'
+import contratoRoutes from './contratos.routes.js'
 
 const router = express.Router();
 
-router.use('/contratos', contratoRoutes);
+router.use('/', contratoRoutes);
 
-module.exports = router;
+export default router;

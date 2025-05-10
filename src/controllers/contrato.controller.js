@@ -1,13 +1,61 @@
-const prisma = require('../database/prisma');
-const handlePrismaError = require('../utils/handlePrismaError');
-const { format: formatCNPJ } = require('@fnando/cnpj');
+import prisma from '../database/prisma.js'
+import { UploadStatus } from '@prisma/client'
+import { format as formatCNPJ } from '@fnando/cnpj'
+import { addJobToQueue } from '../../worker/queue.js'
 
-async function criarContrato(req, res) {
+async function statusArquivo(req, res) {
+  const { id } = req.params;
+
   try {
-    return res.status(201).json({});
+    const arquivo = await prisma.uploadedFile.findUnique({
+      where: { id },
+      select: {
+        status: true,
+        errorMessage: true,
+      },
+    });
+
+    if (!arquivo) {
+      return res.status(404).json({ error: 'Arquivo não encontrado.' });
+    }
+
+    return res.status(200).json({
+      status: arquivo.status,
+      errorMessage: JSON.parse(arquivo.errorMessage) || null,
+    });
   } catch (error) {
-    const { status, message } = handlePrismaError(error, 'Criar contrato');
-    return res.status(status).json({ error: message });
+    console.error('Erro ao buscar status do arquivo:', error);
+    return res.status(500).json({ error: 'Erro interno ao buscar status do arquivo.' });
+  }
+}
+
+async function uploadArquivo(req, res) {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'Arquivo não enviado.' });
+    }
+
+    const uploadedFile = await prisma.uploadedFile.create({
+      data: {
+        filename: req.file.originalname,
+        status: UploadStatus.PENDING,
+      },
+    });
+
+    const base64Buffer = req.file.buffer.toString('base64');
+
+    await addJobToQueue({
+      uploadId: uploadedFile.id,
+      buffer: base64Buffer,
+    });
+
+    return res.status(202).json({
+      message: 'Arquivo enviado com sucesso para processamento.',
+      id: uploadedFile.id,
+    });
+  } catch (error) {
+    console.error('Erro no upload:', error.message);
+    return res.status(500).json({ error: 'Erro interno ao processar o upload.' });
   }
 }
 
@@ -21,11 +69,11 @@ async function listarContratos(req, res) {
       prisma.contrato.findMany({
         skip,
         take: limit,
-        orderBy: { business_name: 'asc' },
+        orderBy: { businessName: 'asc' },
         select: {
           cnpj: true,
-          business_name: true,
-          additional_data: true,
+          businessName: true,
+          additionalData: true,
         },
       }),
       prisma.contrato.count(),
@@ -67,7 +115,8 @@ function check_page_param(page, totalPages, res) {
   return true;
 }
 
-module.exports = {
-  criarContrato,
+export {
+  uploadArquivo,
   listarContratos,
+  statusArquivo
 };

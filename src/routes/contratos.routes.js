@@ -1,11 +1,12 @@
-const express = require('express');
-const {
-  criarContrato,
-  listarContratos,
-} = require('../controllers/contrato.controller');
+import express from 'express'
+import multer from 'multer'
+import { uploadArquivo, listarContratos, statusArquivo } from '../controllers/contrato.controller.js'
 
 const router = express.Router();
+const upload = multer({ storage: multer.memoryStorage() });
 
-router.get('/', listarContratos);
+router.get('/contratos/lista', listarContratos);
+router.get('/upload/:id', statusArquivo);
+router.post('/upload', upload.single('file'), uploadArquivo);
 
-module.exports = router;
+export default router;
