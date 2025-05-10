@@ -1,7 +1,7 @@
-import prisma from '../database/prisma.js'
-import { UploadStatus } from '@prisma/client'
-import { format as formatCNPJ } from '@fnando/cnpj'
-import { addJobToQueue } from '../../worker/queue.js'
+import prisma from '../database/prisma.js';
+import { UploadStatus } from '@prisma/client';
+import { format as formatCNPJ } from '@fnando/cnpj';
+import { addJobToQueue } from '../../worker/queue.js';
 
 async function statusArquivo(req, res) {
   const { id } = req.params;
@@ -25,7 +25,9 @@ async function statusArquivo(req, res) {
     });
   } catch (error) {
     console.error('Erro ao buscar status do arquivo:', error);
-    return res.status(500).json({ error: 'Erro interno ao buscar status do arquivo.' });
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao buscar status do arquivo.' });
   }
 }
 
@@ -55,7 +57,9 @@ async function uploadArquivo(req, res) {
     });
   } catch (error) {
     console.error('Erro no upload:', error.message);
-    return res.status(500).json({ error: 'Erro interno ao processar o upload.' });
+    return res
+      .status(500)
+      .json({ error: 'Erro interno ao processar o upload.' });
   }
 }
 
@@ -115,8 +119,4 @@ function check_page_param(page, totalPages, res) {
   return true;
 }
 
-export {
-  uploadArquivo,
-  listarContratos,
-  statusArquivo
-};
+export { uploadArquivo, listarContratos, statusArquivo };

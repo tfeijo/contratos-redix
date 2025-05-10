@@ -1,4 +1,4 @@
-import contratoSeed from './contratos.seed'
+import contratoSeed from './contratos.seed';
 
 async function runAllSeeds(prisma) {
   await contratoSeed(prisma);

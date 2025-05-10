@@ -1,5 +1,5 @@
-import express from 'express'
-import contratoRoutes from './contratos.routes.js'
+import express from 'express';
+import contratoRoutes from './contratos.routes.js';
 
 const router = express.Router();
 
