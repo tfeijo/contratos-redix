@@ -1,6 +1,6 @@
 # contratos-redix
 
-Backend escalável para gerenciamento de contratos, com suporte a upload de arquivos, filas assíncronas e autenticação JWT. Projetado com foco em performance, manutenibilidade e integração com o ecossistema Redix.
+Backend escalável para gerenciamento de contratos, com suporte a upload de arquivos, filas assíncronas e autenticação JWT. 
 
 ## ✨ Tecnologias Principais
 
