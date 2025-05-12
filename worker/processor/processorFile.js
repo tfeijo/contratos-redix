@@ -20,8 +20,21 @@ async function processFile({ uploadId, buffer }) {
     const firstRow = records[0];
 
     if (!firstRow || !requiredFields.every((f) => f in firstRow)) {
+      const messageError = `Arquivo inválido. Campos obrigatórios: ${requiredFields.join(
+        ', ',
+      )}.`;
+      
+      console.error(
+        `Erro no arquivo ${uploadId}: Campos obrigatórios ausentes ou vazios.`,
+      );
+      
+      linhasComErro.push({
+        linha: 1,
+        erro: messageError
+      });
+
       throw new Error(
-        'Arquivo com estrutura inválida. Colunas obrigatórias: CNPJ, NomeDaEmpresa, DadosAdicionais',
+        messageError,
       );
     }
 
